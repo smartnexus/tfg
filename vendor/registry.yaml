@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  .dockerconfigjson: <secret>
+kind: Secret
+metadata:
+  annotations:
+    digitalocean.com/dosecret-identifier: registry-orchestramanager
+  name: registry-orchestramanager
+  namespace: om
+type: kubernetes.io/dockerconfigjson

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-api-credentials
+  namespace: om
+
+type: Opaque
+stringData:
+  email: angelitoxd99@gmail.com
+  dnsApiToken: I3EN6NHrYfFGh3pkkGZuoJnpU6YN1salWVeMlhLa

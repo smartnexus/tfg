@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: duplicati
+  namespace: om
+spec:
+  selector:
+    matchLabels:
+      app: duplicati 
+  serviceName: "duplicati"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: duplicati
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: duplicati
+        image: linuxserver/duplicati:2.0.6
+        ports:
+        - containerPort: 8200
+          name: duplicati
+        volumeMounts:
+        - name: mongodb
+          mountPath: /source/mongo
+        - name: covers
+          mountPath: /source/images
+        - name: media
+          mountPath: /source/media
+        - name: parts
+          mountPath: /source/parts
+      volumes:
+      - name: mongodb
+        persistentVolumeClaim:
+          claimName: om-mongo
+      - name: covers
+        persistentVolumeClaim:
+          claimName: om-covers
+      - name: media
+        persistentVolumeClaim:
+          claimName: om-media
+      - name: parts
+        persistentVolumeClaim:
+          claimName: om-parts

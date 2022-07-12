@@ -1,0 +1,7 @@
+{
+  "secret": "deced1b4b93c404c6b4ff6255ac887b1e80049cb",
+  "resave": "false",
+  "saveUninitialized": "false",
+  "address": "localhost",
+  "port": 6379
+}

@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: om
+spec:
+  selector:
+    app: frontend
+  type: ClusterIP
+  ports:
+  - name: frontend
+    protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: om
+spec:
+  selector:
+    app: backend
+  type: ClusterIP
+  ports:
+  - name: backend
+    protocol: TCP
+    port: 80
+    targetPort: 3000

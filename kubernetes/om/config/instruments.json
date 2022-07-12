@@ -1,0 +1,19 @@
+{
+  "violin": ["violin"],
+  "viola": ["viola"],
+  "violoncello": ["chelo", "violonchelo", "cello", "violoncello"],
+  "contrabajo": ["bass", "double", "contrabajo", "bajos", "bajo", "tuba"],
+  "keys": ["key", "piano", "arpa", "harp", "organ", "celesta"],
+  "flauta": ["flute", "flauta", "flautin", "piccolo"],
+  "oboe": ["oboe", "cor anglais", "corno"],
+  "clarinete": ["clarinet"],
+  "saxofon": ["alto", "tenor", "baritone", "saxophone", "saxofon"],
+  "fagot": ["bassoon", "fagot", "contrafagot", "contrabassoon"],
+  "trompa": ["horn", "trompa", "corno"],
+  "trompeta": ["trumpet", "trompeta", "cornets", "fliscorno", "brass"],
+  "low_brass": ["trombone", "trombon", "bombardino", "euphonium", "tuba", "bajos", "brass"],
+  "guitars": ["guitarra", "guitar", "electric guitar", "electrica", "bass", "double", "contrabajo"],
+  "percusion": ["timpani", "timbales", "percusion", "percussion", "harp", "drum", "drums", "caja", "cymbals",
+      "platos", "triangle", "triangulo", "tambourine", "glockenspiel", "tambor", "bombo",
+      "tam-tam", "tamtam", "xylophone", "xilofono", "bells", "campanas", "marimba", "bateria"]
+}

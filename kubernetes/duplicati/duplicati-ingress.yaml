@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: duplicati-traefik-ingress
+  namespace: om
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`duplicati.tfg.orchestramanager.pw`)
+      kind: Rule
+      services:
+        - name: duplicati
+          port: 80

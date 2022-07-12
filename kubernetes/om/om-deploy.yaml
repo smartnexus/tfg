@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  frontend
+  namespace: om
+  labels:
+    app: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: registry.digitalocean.com/orchestramanager/frontend:latest
+        #image: gcr.io/orchestra-manager-352817/frontend:latest 
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 50m
+            memory: 50Mi
+        livenessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        ports:
+        - containerPort:  80
+          name:  frontend
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: registry-orchestramanager
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  backend
+  namespace: om
+  labels:
+    app: backend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: redis
+        image: redis:alpine
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 6739
+          name: redis
+        volumeMounts:
+        - name: redis-db
+          mountPath: /data
+      - name: backend
+        image: registry.digitalocean.com/orchestramanager/backend:latest 
+        #image: gcr.io/orchestra-manager-352817/backend:latest
+        env:
+        - name: WAIT_FOR
+          value: mongodb:27017
+        - name: CORS_ORIGIN
+          value: https://front.tfg.orchestramanager.pw
+        resources:
+          requests:
+            cpu: 100m
+            memory: 300Mi #400Mi
+          limits:
+            cpu: 200m
+            memory: 400Mi #500Mi
+        livenessProbe:
+          tcpSocket:
+            port: 3000
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        ports:
+        - containerPort:  3000
+          name:  frontend
+        volumeMounts:
+        - name: parts
+          mountPath: /app/parts
+        - name: media
+          mountPath: /app/media
+        - name: covers
+          mountPath: /app/covers
+        - name: config
+          mountPath: /app/config
+      imagePullSecrets:
+      - name: registry-orchestramanager
+      volumes:
+      - name: config
+        configMap:
+          name: om-config
+      - name: redis-db
+        persistentVolumeClaim:
+          claimName: om-redis
+      - name: parts
+        persistentVolumeClaim:
+          claimName: om-parts
+      - name: media
+        persistentVolumeClaim:
+          claimName: om-media
+      - name: covers
+        persistentVolumeClaim:
+          claimName: om-covers
+      restartPolicy: Always
+

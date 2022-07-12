@@ -1,0 +1,15 @@
+namespace: om
+resources:
+- om-deploy.yaml
+- om-svc.yaml
+- om-ingress.yaml
+- om-hpa.yaml
+configMapGenerator:
+- name: om-config
+  files:
+  - config/address.json
+  - config/crypto-keys.json
+  - config/db.json
+  - config/instruments.json
+  - config/server.json
+  - config/session.json

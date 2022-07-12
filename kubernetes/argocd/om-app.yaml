@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app
+spec:
+  destination:
+    name: ''
+    namespace: om
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: templates/kubernetes/om
+    repoURL: 'git@github.com:smartnexus/OrchestraManager'
+    targetRevision: react_version
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

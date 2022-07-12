@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mongodb
+spec:
+  destination:
+    name: ''
+    namespace: om
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: templates/kubernetes/mongodb
+    repoURL: 'git@github.com:smartnexus/OrchestraManager'
+    targetRevision: react_version
+    directory:
+      jsonnet:
+        tlas: []
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

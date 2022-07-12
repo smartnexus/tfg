@@ -1,0 +1,16 @@
+alertmanager:
+  enabled: true
+grafana:
+  enabled: false
+prometheus:
+  additionalPodMonitors:
+  - name: "traefik-ingress-monitor"
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: traefik
+    namespaceSelector:
+      matchNames:
+        - om
+    podMetricsEndpoints:
+      - port: "metrics"
+        path: /metrics

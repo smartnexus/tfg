@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nfs-provider
+spec:
+  destination:
+    name: ''
+    namespace: om
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: >-
+      https://kubernetes-sigs.github.io/nfs-ganesha-server-and-external-provisioner/
+    targetRevision: 1.4.0
+    chart: nfs-server-provisioner
+    helm:
+      values: |-
+        replicaCount: 1
+        service:
+          type: ClusterIP
+          nfsPort: 2049
+          nlockmgrPort: 32803
+          mountdPort: 20048
+          rquotadPort: 875
+          rpcbindPort: 111
+          statdPort: 662
+        persistence:
+          enabled: true
+          storageClass: standard
+          accessMode: ReadWriteOnce
+          size: 5Gi
+        storageClass:
+          create: true
+          provisionerName: om.cluster
+          defaultClass: false
+          name: nfs
+          allowVolumeExpansion: null
+          mountOptions:
+            - vers=3
+          reclaimPolicy: Retain
+        rbac:
+          create: true
+          serviceAccountName: default
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,26 @@
+replicaCount: 1
+service:
+  type: ClusterIP
+  nfsPort: 2049
+  nlockmgrPort: 32803
+  mountdPort: 20048
+  rquotadPort: 875
+  rpcbindPort: 111
+  statdPort: 662
+persistence:
+  enabled: true
+  storageClass: standard #do-block-storage
+  accessMode: ReadWriteOnce
+  size: 5Gi
+storageClass:
+  create: true
+  provisionerName: om.cluster
+  defaultClass: false
+  name: nfs
+  allowVolumeExpansion: null
+  mountOptions:
+    - vers=3
+  reclaimPolicy: Retain
+rbac:
+  create: true
+  serviceAccountName: default
